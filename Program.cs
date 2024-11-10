@@ -7,7 +7,7 @@ namespace HttpServer
     {
         static void Main(string[] args)
         {
-            HttpListenerBase listener = new MyHttpListener(IPAddress.Loopback);
+            HttpListenerBase listener = new MyHttpListener(Dns.GetHostAddresses(Dns.GetHostName())[1]);
             listener.Start();
         }
     }

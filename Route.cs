@@ -6,7 +6,7 @@
         Post
     }
 
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class RouteAttribute : Attribute
     {
         public Method Method { get; private set; }

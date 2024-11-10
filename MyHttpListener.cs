@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
+using System.Text.Json;
 
 namespace HttpServer
 {
@@ -16,7 +12,13 @@ namespace HttpServer
         [Route(Method.Get, "/")]
         public Response Index(string? query = null)
         {
-            return new Response("Hi");
+            var response = new Response();
+            response.Body = JsonSerializer.Serialize(new
+            {
+                Text = "Hello, World!"
+            });
+            response.ContentType = "application/json";
+            return response;
         }
     }
 }

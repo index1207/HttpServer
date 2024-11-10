@@ -23,8 +23,8 @@ namespace HttpServer
             MethodInfo[] methods = GetType().GetMethods();
             foreach (MethodInfo method in methods)
             {
-                RouteAttribute? attribute = method.GetCustomAttribute<RouteAttribute>(true);
-                if (attribute is not null)
+                List<RouteAttribute> attributes = method.GetCustomAttributes<RouteAttribute>(true).ToList();
+                foreach (RouteAttribute attribute in attributes)
                 {
                     switch (attribute.Method)
                     {
@@ -40,6 +40,8 @@ namespace HttpServer
                 }
             }
 
+            Console.WriteLine($"[System] Http server running on {_socket.LocalEndPoint}");
+
             while (true)
             {
                 Socket clientSocket = _socket.Accept();
@@ -54,8 +56,6 @@ namespace HttpServer
             {
                 Response response = action(query);
                 client.SendResponse(response);
-
-                Console.WriteLine($"[{path}] Response");
             }
             else
             {
@@ -64,8 +64,6 @@ namespace HttpServer
                     StatusCode = Status.NotFound,
                 };
                 client.SendResponse(response);
-
-                Console.WriteLine($"[{path}] 404 Error");
             }
         }
 
